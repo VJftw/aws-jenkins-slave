@@ -62,7 +62,7 @@ ami_name="jenkins-slave_$DATE"
 echo ""
 echo "Creating $ami_name from $instance_id"
 echo ""
-aws ec2 create-image --no-reboot --instance-id $instance_id --name $ami_name
+aws --region eu-west-1 ec2 create-image --no-reboot --instance-id $instance_id --name $ami_name
 
 echo ""
 echo "--> Done!"
