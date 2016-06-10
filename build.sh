@@ -30,7 +30,7 @@ sudo usermod -aG docker ubuntu
 echo "--> Installing pip, invoke, docker-py, invoke-docker-flow"
 sudo curl -O https://bootstrap.pypa.io/get-pip.py
 sudo python3 get-pip.py
-sudo pip install \
+sudo pip install --upgrade \
     invoke \
     docker-py \
     invoke-docker-flow
@@ -45,6 +45,12 @@ sudo mkdir -p /var/jenkins
 sudo chown -R ubuntu:ubuntu /var/jenkins
 sudo chmod -R 770 /var/jenkins
 
+echo ""
+echo "--> Cleaning up Docker"
+echo ""
+sudo docker rm -v $(sudo docker ps -a -q)
+sudo docker rmi -f $(sudo docker images -q)
+sudo docker run -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/docker:/var/lib/docker --rm martin/docker-cleanup-volumes
 
 echo ""
 echo "Installing AWS CLI"
