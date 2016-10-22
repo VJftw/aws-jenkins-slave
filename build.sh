@@ -7,6 +7,8 @@
 export DEBIAN_FRONTEND="noninteractive"
 
 sudo apt-get update -y
+sudo apt-get dist-upgrade -y
+sudo apt-get autoremove -y
 sudo apt-get install -y apt-transport-https ca-certificates
 
 echo "--> Setting up Docker repository"
