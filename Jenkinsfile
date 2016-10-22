@@ -1,12 +1,30 @@
 node {
-    stage 'Build'
+
     checkout scm
-    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWSJenkinsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm', 'defaultFg': 1, 'defaultBg': 2]) {
-          sh '''
-            set +x
-            ./build.sh
-          '''
+
+    stage('Pre-install') {
+        sh 'scripts/pre_install.sh'
+    }
+
+    stage('Update Distribution') {
+        sh 'scripts/dist_update.sh'
+    }
+
+    stage ('Installing/Upgrading') {
+        sh 'scripts/install_all.sh'
+    }
+
+    stage ('Creating Jenkins Workspace') {
+        sh 'scripts/create_jenkins_ws.sh'
+    }
+
+    stage ('Cleaning Up') {
+        sh 'scripts/clean_up.sh'
+    }
+
+    stage ('Creating AMI') {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'AWSJenkinsCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+            sh 'invoke create_ami'
         }
     }
 }
