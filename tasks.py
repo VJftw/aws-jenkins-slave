@@ -12,7 +12,7 @@ def create_ami(ctx):
 
     response = client.create_image(
         Name=ami_name,
-        InstanceId=instance_id,
+        InstanceId=instance_id.decode("utf-8"),
         NoReboot=True
     )
 
