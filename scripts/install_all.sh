@@ -29,7 +29,8 @@ sudo usermod -aG docker ubuntu
 # Install build deps
 sudo pip3 install --upgrade \
     docker-py \
-    invoke-docker-flow
+    invoke-docker-flow \
+    invoke-tools
 
 # Restart Docker
 sudo service docker restart
